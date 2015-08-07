@@ -56,7 +56,7 @@ public class UserControllerTest {
 	@Test
 	public void delete() throws Exception {
 		this.mockMvc
-			.perform(get("/users/delete/1"))
+			.perform(get("/users/delete/" + anyInt()))
 			.andExpect(status().isOk());
 	}
 }
