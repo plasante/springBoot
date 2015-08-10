@@ -13,6 +13,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.uniksoft.repositories.BookRepository;
 
@@ -50,10 +52,19 @@ public class Main {
 		
 	}
 	
+//	@Bean
+//	public ViewResolver viewResolver() {
+//		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+//		resolver.setPrefix("WEB-INF/views/");
+//		resolver.setSuffix(".jsp");
+//		return resolver;
+//	}
+	
 	@Bean
 	public CacheManager cacheManager() {
 		return new ConcurrentMapCacheManager("books");
 	}
+	
 	
     public static void main(String[] args) throws Exception {
         ApplicationContext ctx = SpringApplication.run(Main.class, args);
