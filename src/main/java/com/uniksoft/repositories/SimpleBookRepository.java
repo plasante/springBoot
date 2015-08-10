@@ -19,7 +19,8 @@ public class SimpleBookRepository implements BookRepository {
 	
 	private void simulateSlowService() {
 		try {
-			long time = 5000L;
+			//long time = 5000L;
+			long time = 1000L;
 			Thread.sleep(time);
 		} catch (InterruptedException e) {
 			e.printStackTrace();

@@ -1,14 +1,14 @@
 package com.uniksoft.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class HomeController {
+public class TranslateController {
 
-	@RequestMapping("/")
-	public String home() {
-		return "index";
+	@RequestMapping("/translate")
+	public String translate(Model model) {
+		return "translator";
 	}
 }

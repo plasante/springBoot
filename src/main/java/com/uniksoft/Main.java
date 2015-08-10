@@ -1,5 +1,7 @@
 package com.uniksoft;
 
+import java.util.Locale;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.uniksoft.repositories.BookRepository;
@@ -25,7 +32,7 @@ import com.uniksoft.repositories.BookRepository;
 @SpringBootApplication
 @EnableJpaRepositories
 @EnableCaching
-public class Main {
+public class Main extends WebMvcConfigurerAdapter {
 	
 	private static final Logger log = LoggerFactory.getLogger(Main.class);
 	
@@ -52,13 +59,30 @@ public class Main {
 		
 	}
 	
-//	@Bean
-//	public ViewResolver viewResolver() {
-//		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//		resolver.setPrefix("WEB-INF/views/");
-//		resolver.setSuffix(".jsp");
-//		return resolver;
-//	}
+	/*
+	 * When the application starts the default Locale is english(fr)
+	 */
+	@Bean
+	public LocaleResolver localeResolver() {
+		SessionLocaleResolver slr = new SessionLocaleResolver();
+		slr.setDefaultLocale(new Locale("fr"));
+		return slr;
+	}
+	
+	/*
+	 * Adding 'lang=es' in the URL will render Spanish version.
+	 */
+	@Bean
+	public LocaleChangeInterceptor localeChangeInterceptor() {
+		LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+		lci.setParamName("lang");
+		return lci;
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(localeChangeInterceptor());
+	}
 	
 	@Bean
 	public CacheManager cacheManager() {
